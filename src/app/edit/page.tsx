@@ -21,7 +21,7 @@ export default function EditPage() {
 
     html2canvas(canvas).then((canvas) => {
       const link = document.createElement("a");
-      link.download = "combined-image.png";
+      link.download = "display-picture.png";
       link.href = canvas.toDataURL();
       link.click();
     });
@@ -53,18 +53,14 @@ export default function EditPage() {
       <div className="px-5 py-12">
         <div className="mx-auto flex h-[300px] w-[300px] flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-app-black ring-[10px] ring-gray-300">
           <div className="relative h-full w-full" ref={canvasRef}>
-            <Image
+            <img
               className="absolute left-0 top-0 h-full w-full object-cover"
               src={bgImageUrl}
-              width={300}
-              height={300}
               alt="Background image"
             />
-            <Image
+            <img
               className="absolute left-0 top-0 z-10 h-full w-full object-cover"
               src={imageUrl}
-              width={300}
-              height={300}
               alt="Uploaded image"
             />
           </div>
