@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --app-black: 0 0% 4%;
-    --app-gray: 216 12.2% 83.9%;
+    --app-black: 240 8% 10%;
+    --app-gray: 216 12.2% 92%;
     --app-gray-dark: 216.9 19.1% 26.7%;
     --app-white: 0 0% 96%;
 
@@ -33,7 +33,7 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
+    --border: 240 5.9% 78%;
     --input: 240 5.9% 90%;
     --ring: 240 10% 3.9%;
     --chart-1: 12 76% 61%;
@@ -41,7 +41,7 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 2.5rem;
+    --radius: 2.3rem;
   }
   /* :root {
     --background: 0 0% 100%;
@@ -115,13 +115,22 @@
   }
 }
 
-
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .hide-scrollbar {
+    /* Firefox */
+    scrollbar-width: none;
+    /* Safari and Chrome */
+    &::-webkit-scrollbar {
+      display: "none";
+    }
   }
 }

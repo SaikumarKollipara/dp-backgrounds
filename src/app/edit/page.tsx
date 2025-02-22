@@ -118,12 +118,12 @@ export default function EditPage() {
   }
 
   const handleTransformChange = (
-    imageType: "bg" | "image",
+    imageType: "background" | "overlay",
     field: keyof Transform,
     value: number,
   ) => {
     const updateTransform =
-      imageType === "bg" ? setBgTransform : setImageTransform;
+      imageType === "background" ? setBgTransform : setImageTransform;
     updateTransform((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -144,8 +144,9 @@ export default function EditPage() {
   }, [bgTransform, imageTransform]);
 
   return (
-    <main>
+    <main className="flex h-[100dvh] flex-col">
       <Header
+        className="static"
         backHref="/"
         title="Edit Image"
         SecondaryButton={
@@ -158,7 +159,8 @@ export default function EditPage() {
           </Button>
         }
       />
-      <div className="px-5 py-12">
+
+      <div className="flex flex-1 flex-col gap-8 overflow-scroll p-5">
         <canvas
           ref={canvasRef}
           className="mx-auto h-[300px] w-[300px] rounded-lg border border-app-black ring-[10px] ring-gray-300"

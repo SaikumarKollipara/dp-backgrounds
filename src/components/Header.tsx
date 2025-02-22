@@ -1,12 +1,14 @@
 import { ArrowLeft, Download, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import { redirect } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface Props {
   type?: "primary" | "secondary";
   backHref?: string;
   SecondaryButton?: React.ReactNode;
   title?: string;
+  className?: string;
 }
 
 export default function Header({
@@ -14,9 +16,15 @@ export default function Header({
   backHref,
   SecondaryButton,
   title,
+  className,
 }: Props) {
   return (
-    <div className="sticky top-0 flex h-20 flex-col justify-center border-b border-b-gray-300 px-5 backdrop-blur-lg">
+    <div
+      className={cn(
+        "sticky top-0 flex h-20 flex-col justify-center border-b border-b-gray-300 px-5 backdrop-blur-lg",
+        className,
+      )}
+    >
       {type === "primary" && (
         <div className="flex gap-2">
           <Sparkles />
