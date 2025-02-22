@@ -6,7 +6,6 @@ import { removeBackground } from "@imgly/background-removal";
 import { useState } from "react";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -17,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function BackgroundsList() {
   const imageUrl = useHomeStore((state) => state.imageUrl);

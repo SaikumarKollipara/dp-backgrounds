@@ -9,13 +9,31 @@ export default function UploadContainer() {
 
   function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImageUrl(reader.result as string);
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.src = reader.result as string;
+
+      img.onload = () => {
+        const maxSize = 1000;
+        const scale = Math.min(maxSize / img.width, maxSize / img.height);
+
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          const resizedImageUrl = canvas.toDataURL("image/png");
+          setImageUrl(resizedImageUrl);
+        }
       };
-      reader.readAsDataURL(file);
-    }
+    };
+
+    reader.readAsDataURL(file);
   }
 
   return (

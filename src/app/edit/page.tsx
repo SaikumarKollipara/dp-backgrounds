@@ -46,11 +46,39 @@ export default function EditPage() {
   }, [bgImageUrl, overlayImageUrl]);
 
   function downloadImage() {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const downloadSize = 1000; // Set desired download resolution
 
+    if (!ctx || !bgImageRef.current || !overlayImageRef.current) return;
+
+    // Set high-res canvas size
+    canvas.width = downloadSize;
+    canvas.height = downloadSize;
+
+    // Function to draw image with transforms
+    const drawImage = (img: HTMLImageElement, transform: Transform) => {
+      const scale =
+        transform.scale *
+        Math.max(downloadSize / img.width, downloadSize / img.height);
+      const x = (downloadSize - img.width * scale) / 2 + transform.x * 4; // Scale transform
+      const y = (downloadSize - img.height * scale) / 2 + transform.y * 4;
+
+      ctx.save();
+      ctx.translate(downloadSize / 2, downloadSize / 2);
+      ctx.rotate((transform.rotation * Math.PI) / 180);
+      ctx.translate(-downloadSize / 2, -downloadSize / 2);
+      ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+      ctx.restore();
+    };
+
+    // Draw both images on high-res canvas
+    drawImage(bgImageRef.current, bgTransform);
+    drawImage(overlayImageRef.current, imageTransform);
+
+    // Download the image
     const link = document.createElement("a");
-    link.download = "combined-image.png";
+    link.download = "high-res-image.png";
     link.href = canvas.toDataURL("image/png");
     link.click();
   }
