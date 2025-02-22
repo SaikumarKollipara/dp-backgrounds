@@ -4,36 +4,68 @@ import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { useHomeStore } from "@/store/home-store";
 import { Download } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
-import html2canvas from "html2canvas";
 
 export default function EditPage() {
-  const canvasRef = useRef(null);
   const router = useRouter();
-  const imageUrl = useHomeStore((state) => state.imageUrl);
+  const fgImageUrl = useHomeStore((state) => state.imageUrl);
   const bgImageUrl = useHomeStore((state) => state.bgImageUrl);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  function drawImages() {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const size = 500; // Output image size (1:1)
+    canvas.width = size;
+    canvas.height = size;
+
+    const drawImage = (src: string): Promise<void> => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+          const scale = Math.max(size / img.width, size / img.height);
+          const x = (size - img.width * scale) / 2;
+          const y = (size - img.height * scale) / 2;
+          ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+          resolve();
+        };
+      });
+    };
+
+    ctx.clearRect(0, 0, size, size);
+    (async () => {
+      if (bgImageUrl) await drawImage(bgImageUrl);
+      if (fgImageUrl) await drawImage(fgImageUrl);
+    })();
+  }
 
   function downloadImage() {
     const canvas = canvasRef.current;
-    if (canvas === null) return;
+    if (!canvas) return;
 
-    html2canvas(canvas).then((canvas) => {
-      const link = document.createElement("a");
-      link.download = "display-picture.png";
-      link.href = canvas.toDataURL();
-      link.click();
-    });
+    const link = document.createElement("a");
+    link.download = "combined-image.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
   }
 
+  if (!fgImageUrl || !bgImageUrl) return null;
+
   useEffect(() => {
-    if (!imageUrl || !bgImageUrl) {
+    if (!fgImageUrl || !bgImageUrl) {
       router.push("/");
     }
-  }, [imageUrl, bgImageUrl]);
+  }, [fgImageUrl, bgImageUrl]);
 
-  if (!imageUrl || !bgImageUrl) return null;
+  useEffect(() => {
+    drawImages();
+  }, []);
 
   return (
     <main>
@@ -51,20 +83,10 @@ export default function EditPage() {
         }
       />
       <div className="px-5 py-12">
-        <div className="mx-auto flex h-[300px] w-[300px] flex-col items-center justify-center gap-2 overflow-hidden rounded-lg border border-app-black ring-[10px] ring-gray-300">
-          <div className="relative h-full w-full" ref={canvasRef}>
-            <img
-              className="absolute left-0 top-0 h-full w-full object-cover"
-              src={bgImageUrl}
-              alt="Background image"
-            />
-            <img
-              className="absolute left-0 top-0 z-10 h-full w-full object-cover"
-              src={imageUrl}
-              alt="Uploaded image"
-            />
-          </div>
-        </div>
+        <canvas
+          ref={canvasRef}
+          className="mx-auto h-[300px] w-[300px] rounded-lg border border-app-black ring-[10px] ring-gray-300"
+        ></canvas>
       </div>
     </main>
   );
