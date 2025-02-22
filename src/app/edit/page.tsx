@@ -11,7 +11,7 @@ import { Transform } from "@/lib/types";
 
 export default function EditPage() {
   const router = useRouter();
-  const fgImageUrl = useHomeStore((state) => state.imageUrl);
+  const overlayImageUrl = useHomeStore((state) => state.imageUrl);
   const bgImageUrl = useHomeStore((state) => state.bgImageUrl);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -28,6 +28,22 @@ export default function EditPage() {
     scale: 1,
     rotation: 0,
   });
+
+  const bgImageRef = useRef<HTMLImageElement | null>(null);
+  const overlayImageRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    if (bgImageUrl) {
+      const img = new Image();
+      img.src = bgImageUrl;
+      img.onload = () => (bgImageRef.current = img);
+    }
+    if (overlayImageUrl) {
+      const img = new Image();
+      img.src = overlayImageUrl;
+      img.onload = () => (overlayImageRef.current = img);
+    }
+  }, [bgImageUrl, overlayImageUrl]);
 
   function downloadImage() {
     const canvas = canvasRef.current;
@@ -46,37 +62,31 @@ export default function EditPage() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const size = 500; // Output image size (1:1)
+    const size = 500;
     canvas.width = size;
     canvas.height = size;
 
-    const drawImage = (src: string, transform: Transform): Promise<void> => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = () => {
-          const scale =
-            transform.scale * Math.max(size / img.width, size / img.height);
-          const x = (size - img.width * scale) / 2 + transform.x;
-          const y = (size - img.height * scale) / 2 + transform.y;
+    ctx.clearRect(0, 0, size, size);
 
-          ctx.save();
-          ctx.translate(size / 2, size / 2);
-          ctx.rotate((transform.rotation * Math.PI) / 180);
-          ctx.translate(-size / 2, -size / 2);
-          ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-          ctx.restore();
+    const drawImage = (img: HTMLImageElement | null, transform: Transform) => {
+      if (!img) return;
 
-          resolve();
-        };
-      });
+      const scale =
+        transform.scale * Math.max(size / img.width, size / img.height);
+      const x = (size - img.width * scale) / 2 + transform.x;
+      const y = (size - img.height * scale) / 2 + transform.y;
+
+      ctx.save();
+      ctx.translate(size / 2, size / 2);
+      ctx.rotate((transform.rotation * Math.PI) / 180);
+      ctx.translate(-size / 2, -size / 2);
+      ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+      ctx.restore();
     };
 
-    ctx.clearRect(0, 0, size, size);
-    (async () => {
-      if (bgImageUrl) await drawImage(bgImageUrl, bgTransform);
-      if (fgImageUrl) await drawImage(fgImageUrl, imageTransform);
-    })();
+    drawImage(bgImageRef.current, bgTransform);
+    drawImage(overlayImageRef.current, imageTransform);
+    requestAnimationFrame(drawImages);
   }
 
   const handleTransformChange = (
@@ -90,12 +100,16 @@ export default function EditPage() {
   };
 
   useEffect(() => {
-    if (!fgImageUrl || !bgImageUrl) {
+    requestAnimationFrame(drawImages);
+  }, [bgImageUrl, overlayImageUrl]);
+
+  useEffect(() => {
+    if (!overlayImageUrl || !bgImageUrl) {
       router.push("/");
     }
-  }, [fgImageUrl, bgImageUrl]);
+  }, [overlayImageUrl, bgImageUrl]);
 
-  if (!fgImageUrl || !bgImageUrl) return null;
+  if (!overlayImageUrl || !bgImageUrl) return null;
 
   useEffect(() => {
     drawImages();
