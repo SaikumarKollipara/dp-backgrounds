@@ -1,4 +1,4 @@
-import { ArrowLeft, Download, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
 import { redirect } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -21,7 +21,7 @@ export default function Header({
   return (
     <div
       className={cn(
-        "sticky top-0 flex h-20 flex-col justify-center border-b border-b-gray-300 px-5 backdrop-blur-lg md:px-12",
+        "sticky top-0 flex h-20 flex-col justify-center border-b-2 border-b-gray-300 bg-background/40 px-5 backdrop-blur-lg md:px-12",
         className,
       )}
     >
