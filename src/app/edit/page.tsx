@@ -90,15 +90,15 @@ export default function EditPage() {
     requestAnimationFrame(drawImages);
   }
 
-  const handleTransformChange = (
+  function handleTransformChange(
     imageType: "background" | "overlay",
     field: keyof Transform,
     value: number,
-  ) => {
+  ) {
     const updateTransform =
       imageType === "background" ? setBgTransform : setImageTransform;
     updateTransform((prev) => ({ ...prev, [field]: value }));
-  };
+  }
 
   useEffect(() => {
     requestAnimationFrame(drawImages);
@@ -117,7 +117,7 @@ export default function EditPage() {
   }, [bgTransform, imageTransform]);
 
   return (
-    <main className="flex h-[100dvh] flex-col">
+    <main className="flex h-[100dvh] flex-col md:block">
       <Header
         className="static"
         backHref="/"
@@ -133,10 +133,10 @@ export default function EditPage() {
         }
       />
 
-      <div className="flex flex-1 flex-col gap-8 overflow-scroll p-5">
+      <div className="hide-scrollbar flex flex-1 flex-col gap-8 overflow-scroll p-5 md:mx-auto md:h-[calc(100%-100px)] md:max-w-6xl md:flex-row md:items-center md:gap-10 md:px-12">
         <canvas
           ref={canvasRef}
-          className="mx-auto h-[300px] w-[300px] rounded-lg border border-app-black ring-[10px] ring-gray-300"
+          className="md: mx-auto h-[300px] w-[300px] rounded-lg border border-app-black ring-[10px] ring-gray-300 md:h-[500px] md:w-[500px]"
         ></canvas>
         <Controls
           bgTransform={bgTransform}

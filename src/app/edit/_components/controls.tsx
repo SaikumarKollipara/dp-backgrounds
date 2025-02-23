@@ -19,7 +19,7 @@ export default function Controls({
   handleTransformChange,
 }: Props) {
   return (
-    <div className="h-full w-full flex-1 overflow-scroll rounded-md bg-white p-5">
+    <div className="hide-scrollbar h-full w-full flex-1 overflow-scroll rounded-md bg-white p-5 md:max-h-[800px]">
       <Tabs
         defaultValue="overlay"
         className="hide-scrollbar h-full w-full overflow-y-auto"
@@ -62,7 +62,7 @@ function Control({
   handleTransformChange,
 }: { type: "overlay" | "background" } & Props) {
   return (
-    <div className="w-full max-w-sm space-y-4 p-4">
+    <div className="w-full space-y-4 p-4">
       {(["x", "y", "scale", "rotation"] as const).map((field) => (
         <div key={field} className="flex items-center gap-2">
           <RectangularSlider
