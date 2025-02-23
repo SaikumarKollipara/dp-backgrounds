@@ -21,7 +21,7 @@ export default function Header({
   return (
     <div
       className={cn(
-        "sticky top-0 flex h-20 flex-col justify-center border-b border-b-gray-300 px-5 backdrop-blur-lg",
+        "sticky top-0 flex h-20 flex-col justify-center border-b border-b-gray-300 px-5 backdrop-blur-lg md:px-12",
         className,
       )}
     >
