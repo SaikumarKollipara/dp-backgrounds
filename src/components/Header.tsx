@@ -34,7 +34,7 @@ export default function Header({
       {type === "secondary" && (
         <div className="flex items-center justify-between gap-4">
           <Button
-            className="bg-white text-app-black"
+            variant={"secondary"}
             size={"icon"}
             onClick={() => backHref && redirect(backHref)}
           >

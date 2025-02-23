@@ -123,11 +123,7 @@ export default function EditPage() {
         backHref="/"
         title="Edit Image"
         SecondaryButton={
-          <Button
-            className="bg-white text-app-black"
-            size={"icon"}
-            onClick={downloadImage}
-          >
+          <Button variant={"secondary"} size={"icon"} onClick={downloadImage}>
             <Download />
           </Button>
         }
