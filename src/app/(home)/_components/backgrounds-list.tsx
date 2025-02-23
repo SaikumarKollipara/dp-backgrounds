@@ -17,6 +17,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -88,9 +89,9 @@ function BackgroundTag({ name }: { name: string }) {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Select an image</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you're done.
+              The image will apply as background to uploaded image.
             </DialogDescription>
           </DialogHeader>
           <BackgroundOptions
@@ -98,6 +99,18 @@ function BackgroundTag({ name }: { name: string }) {
             activeBgIdx={activeBgIdx}
             setActiveBgIdx={setActiveBgIdx}
           />
+
+          {activeBgIdx !== null && (
+            <DialogFooter className="bg-transparent">
+              <Button
+                className="w-full"
+                onClick={applyBackground}
+                isLoading={isApplying}
+              >
+                Apply
+              </Button>
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     );
@@ -112,7 +125,7 @@ function BackgroundTag({ name }: { name: string }) {
             Select an image
           </DrawerTitle>
           <DrawerDescription>
-            The image will apply as background to uploaded image
+            The image will apply as background to uploaded image.
           </DrawerDescription>
         </DrawerHeader>
 
@@ -161,8 +174,8 @@ function BackgroundOptions({
           )}
           key={idx}
           src={imageUrl}
-          height={200}
-          width={200}
+          height={150}
+          width={150}
           alt="bg"
           onClick={() => handleBgClick(idx)}
         />
