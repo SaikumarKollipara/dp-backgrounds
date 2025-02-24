@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
-import LoadingScreen from "@/components/loading-screen";
+import LoadingScreen from "@/components/loading-screen/loading-screen";
 
 const bricolageGrotesque = Bricolage_Grotesque({
   variable: "--font-bricolage-grotesque",
