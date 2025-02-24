@@ -2,7 +2,6 @@
 
 import { BACKGROUNDS } from "@/lib/constants";
 import { useHomeStore } from "@/store/home-store";
-import { removeBackground } from "@imgly/background-removal";
 import { Dispatch, SetStateAction, useState } from "react";
 import {
   Drawer,
@@ -24,9 +23,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, handleRemoveBackground } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import useWindowSize from "@/lib/hooks";
+import { Upload } from "lucide-react";
+import UploadBgImage from "./upload-bg-image";
 
 export default function BackgroundsList() {
   const imageUrl = useHomeStore((state) => state.imageUrl);
@@ -39,7 +40,9 @@ export default function BackgroundsList() {
         Choose a background
       </h3>
 
-      <div className="mt-4 flex flex-wrap justify-between gap-2 *:min-w-24 *:flex-1 *:rounded-full *:border *:border-app-black *:p-4 *:text-center *:font-semibold *:text-app-black">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 *:min-w-24 *:flex-1 *:rounded-full *:border *:border-app-black *:p-4 *:text-center *:font-semibold">
+        <UploadBgImage />
+
         {Object.keys(BACKGROUNDS).map((name, idx) => (
           <BackgroundTag name={name} key={idx} />
         ))}
@@ -53,22 +56,17 @@ function BackgroundTag({ name }: { name: string }) {
   const imageUrl = useHomeStore((state) => state.imageUrl);
   const setImageUrl = useHomeStore((state) => state.setImageUrl);
   const setBgImageUrl = useHomeStore((state) => state.setBgImageUrl);
+  const isLoading = useHomeStore((state) => state.isLoading);
+  const setIsLoading = useHomeStore((state) => state.setIsLoading);
   const { isMdWidth } = useWindowSize();
 
   const [activeBgIdx, setActiveBgIdx] = useState<null | number>(null);
-  const [isApplying, setIsApplying] = useState(false);
 
   async function applyBackground() {
     if (activeBgIdx === null) return;
     try {
-      setIsApplying(true);
-      const imageBlob = await removeBackground(imageUrl as string, {
-        debug: true,
-        progress: (key, current, total) => {
-          console.log(`Downloading ${key}: ${current} of ${total}`);
-        },
-      });
-      const url = URL.createObjectURL(imageBlob);
+      setIsLoading(true);
+      const url = await handleRemoveBackground(imageUrl as string);
       setImageUrl(url);
 
       const bgImageUrl = BACKGROUNDS[name][activeBgIdx];
@@ -77,7 +75,7 @@ function BackgroundTag({ name }: { name: string }) {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsApplying(false);
+      setIsLoading(false);
     }
   }
 
@@ -105,7 +103,7 @@ function BackgroundTag({ name }: { name: string }) {
               <Button
                 className="w-full"
                 onClick={applyBackground}
-                isLoading={isApplying}
+                isLoading={isLoading}
               >
                 Apply
               </Button>
@@ -137,7 +135,7 @@ function BackgroundTag({ name }: { name: string }) {
 
         {activeBgIdx !== null && (
           <DrawerFooter className="bg-transparent">
-            <Button onClick={applyBackground} isLoading={isApplying}>
+            <Button onClick={applyBackground} isLoading={isLoading}>
               Apply
             </Button>
           </DrawerFooter>

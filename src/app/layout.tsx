@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
+import LoadingScreen from "@/components/loading-screen";
 
 const bricolageGrotesque = Bricolage_Grotesque({
   variable: "--font-bricolage-grotesque",
@@ -28,6 +29,7 @@ export default function RootLayout({
         className={`${bricolageGrotesque.variable} ${inter.variable} ${inter.className} bg-app-white antialiased`}
       >
         {children}
+        <LoadingScreen />
       </body>
     </html>
   );
