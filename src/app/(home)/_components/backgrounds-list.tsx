@@ -26,7 +26,6 @@ import Image from "next/image";
 import { cn, handleRemoveBackground } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import useWindowSize from "@/lib/hooks";
-import { Upload } from "lucide-react";
 import UploadBgImage from "./upload-bg-image";
 
 export default function BackgroundsList() {
