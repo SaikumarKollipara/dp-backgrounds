@@ -15,7 +15,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "DP Backgrounds",
-  description: "Generate backgrounds for your display pictures.",
+  description:
+    "Free Background Remover & Photo Editor. Instantly remove image backgrounds and set custom backdrops. Perfect for social media, and more.",
 };
 
 export default function RootLayout({
