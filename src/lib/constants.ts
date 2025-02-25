@@ -19,4 +19,14 @@ export const BACKGROUNDS: Record<string, string[]> = {
     "/images/backgrounds/pbks1.jpg",
     "/images/backgrounds/gt1.jpg",
   ],
+  Nature: [
+    "https://images.pexels.com/photos/600114/pexels-photo-600114.jpeg?auto=compress&cs=tinysrgb&w=500&h=750&dpr=2",
+    "https://images.pexels.com/photos/1547813/pexels-photo-1547813.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&dpr=2",
+    "https://images.pexels.com/photos/12218728/pexels-photo-12218728.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&dpr=2",
+    "https://images.pexels.com/photos/1179229/pexels-photo-1179229.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&dpr=2",
+  ],
+  Patterns: [
+    "https://images.pexels.com/photos/532563/pexels-photo-532563.jpeg",
+    "https://images.pexels.com/photos/1382393/pexels-photo-1382393.jpeg?auto=compress&cs=tinysrgb&w=500&h=500&dpr=2",
+  ],
 };
