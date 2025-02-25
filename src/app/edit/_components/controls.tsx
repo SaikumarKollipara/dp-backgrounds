@@ -20,7 +20,7 @@ export default function Controls({
   handleTransformChange,
 }: Props) {
   return (
-    <div className="hide-scrollbar h-full w-full flex-1 overflow-scroll rounded-md bg-white p-5 md:max-h-[800px]">
+    <div className="hide-scrollbar h-full w-full flex-1 overflow-scroll rounded-md bg-white p-5 md:max-h-[600px]">
       <Tabs
         defaultValue="overlay"
         className="hide-scrollbar h-full w-full overflow-y-auto"

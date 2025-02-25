@@ -129,7 +129,7 @@ export default function EditPage() {
         }
       />
 
-      <div className="hide-scrollbar flex flex-1 flex-col gap-8 overflow-scroll p-5 md:mx-auto md:h-[calc(100%-100px)] md:max-w-6xl md:flex-row md:items-center md:gap-10 md:px-12">
+      <div className="hide-scrollbar flex flex-1 flex-col gap-8 overflow-scroll p-5 md:mx-auto md:h-[calc(100%-100px)] md:max-w-6xl md:flex-row md:items-center md:gap-20 md:px-12">
         <canvas
           ref={canvasRef}
           className="md: mx-auto h-[300px] w-[300px] rounded-lg border border-app-black ring-[10px] ring-gray-300 md:h-[500px] md:w-[500px]"
