@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import RectangularSlider from "@/components/rectangular-slider";
 import { Transform } from "@/lib/types";
+import CustomSlider from "@/components/custom-slider";
 
 interface Props {
   bgTransform: Transform;
@@ -62,11 +63,11 @@ function Control({
   handleTransformChange,
 }: { type: "overlay" | "background" } & Props) {
   return (
-    <div className="w-full space-y-4 p-4">
+    <div className="w-full space-y-12 p-4 md:mt-12">
       {(["x", "y", "scale", "rotation"] as const).map((field) => (
         <div key={field} className="flex items-center gap-2">
-          <RectangularSlider
-            className="w-full"
+          <CustomSlider
+            className="mx-auto w-full max-w-sm"
             label={field.charAt(0).toUpperCase() + field.slice(1)}
             value={
               type === "background" ? bgTransform[field] : imageTransform[field]
