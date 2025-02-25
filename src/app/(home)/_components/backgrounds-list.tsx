@@ -167,7 +167,7 @@ function BackgroundOptions({
       {BACKGROUNDS[name].map((imageUrl, idx) => (
         <Image
           className={cn(
-            "h-full w-full rounded-md bg-cover",
+            "h-full w-full rounded-md object-cover",
             activeBgIdx === idx && "ring ring-app-black",
           )}
           key={idx}

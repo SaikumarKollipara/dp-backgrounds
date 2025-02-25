@@ -115,7 +115,7 @@ function UploadOptions() {
   }
 
   return (
-    <div className="space-y-8 p-4">
+    <div className="mx-auto w-full max-w-2xl space-y-8 p-4">
       <input
         id="bg-image-upload"
         className="hidden"
