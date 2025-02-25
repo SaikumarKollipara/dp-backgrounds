@@ -39,7 +39,7 @@ export default function BackgroundsList() {
         Choose a background
       </h3>
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-2 *:min-w-24 *:flex-1 *:rounded-full *:border *:border-app-black *:p-4 *:text-center *:font-semibold">
+      <div className="mt-4 flex flex-wrap items-center gap-2 *:min-w-24 *:max-w-[200px] *:flex-1 *:rounded-full *:border *:border-app-black *:p-4 *:text-center *:font-semibold">
         <UploadBgImage />
 
         {Object.keys(BACKGROUNDS).map((name, idx) => (
@@ -162,11 +162,11 @@ function BackgroundOptions({
   }
 
   return (
-    <div className="grid w-full grid-cols-[repeat(auto-fill,minmax(175px,1fr))] gap-4 overflow-y-scroll p-5">
+    <div className="grid max-h-[80vh] w-full grid-cols-[repeat(auto-fill,minmax(175px,1fr))] gap-4 overflow-y-scroll p-5 md:max-h-[60vh]">
       {BACKGROUNDS[name].map((imageUrl, idx) => (
         <Image
           className={cn(
-            "h-full w-full rounded-md object-cover",
+            "h-[175px] w-full rounded-md object-cover",
             activeBgIdx === idx && "ring ring-app-black",
           )}
           key={idx}
