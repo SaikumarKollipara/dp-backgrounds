@@ -7,12 +7,14 @@ export default function HomePage() {
     <main>
       <Header type="primary" />
       <div className="mx-auto max-w-6xl px-5 py-12 md:px-12">
-        <div className="w-3/4 md:w-full">
-          <h2 className="font-bricolage text-2xl font-bold capitalize md:text-center md:text-5xl md:font-extrabold md:leading-tight">
+        <div className="w-3/4 md:mx-auto md:w-full md:text-center">
+          <h2 className="font-bricolage text-3xl font-bold capitalize md:text-5xl md:font-extrabold md:leading-tight">
             Apply your favourite image as your DP's background.
           </h2>
-          <p className="mt-4 font-medium text-app-gray-dark md:text-center">
-            Effortlessly change backgrounds with our easy to use tools.
+          <p className="mt-4 font-medium text-app-gray-dark md:mx-auto md:w-3/4">
+            change backgrounds with our easy to use tools. Effortlessly
+            transform your photos in seconds by removing backgrounds and
+            blending them with any image you prefer.
           </p>
         </div>
 
